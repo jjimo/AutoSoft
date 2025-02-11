@@ -73,8 +73,9 @@ CREATE TABLE FACTURA (
 );
 
 
-/** STORED PROCEDURES **/
+/******** STORED PROCEDURES ********/
 
+/**** USUARIOS ****/
 
 -- REGISTRO USUARIO
 CREATE PROCEDURE REGISTRAR_USUARIO
@@ -137,4 +138,59 @@ BEGIN
     SELECT ID_USUARIO, NOMBRE, EMAIL, ESTADO, ID_ROL, CREATED_AT
     FROM USUARIOS
     WHERE ID_USUARIO = @ID_Usuario;
+END;
+
+
+
+/**** PERSONAS ****/
+
+-- REGISTRO PERSONA
+CREATE PROCEDURE REGISTRAR_PERSONA
+    @Identificacion     INT,
+    @Nombre             VARCHAR(255),
+    @Email              VARCHAR(320),
+    @Telefono           BIGINT,
+    @Id_Tipo_Persona    INT
+AS
+BEGIN
+    INSERT INTO dbo.PERSONAS(IDENTIFICACION, NOMBRE, EMAIL, TELEFONO, ID_TIPO_PERSONA)
+    VALUES (@Identificacion, @Nombre, @Email, @Telefono, @Id_Tipo_Persona)
+END;
+
+-- ACTUALIZAR PERSONA
+CREATE PROCEDURE ACTUALIZAR_PERSONA
+    @Id_Persona         INT,
+    @Identificacion     INT,
+    @Nombre             VARCHAR(255),
+    @Email              VARCHAR(320),
+    @Telefono           BIGINT,
+    @Id_Tipo_Persona    INT
+AS
+BEGIN
+    UPDATE PERSONAS
+    SET 
+        IDENTIFICACION = @Identificacion,
+        NOMBRE = @Nombre,
+        EMAIL = @Email,
+        TELEFONO = @Telefono,
+        ID_TIPO_PERSONA = @Id_Tipo_Persona
+    WHERE ID_PERSONA = @Id_Persona
+END;
+
+-- OBTENER TODAS LAS PERSONAS
+CREATE PROCEDURE OBTENER_PERSONAS
+AS
+BEGIN
+    SELECT * FROM PERSONAS
+END;
+
+-- OBTENER PERSONA
+CREATE PROCEDURE OBTENER_PERSONA
+    @Id_Persona INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT * FROM PERSONAS
+    WHERE ID_PERSONA = @Id_Persona;
 END;
